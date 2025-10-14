@@ -67,24 +67,14 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Navbar
         userName={user ? `${user.firstName} ${user.lastName}` : undefined}
         userImage={user?.image}
       />
       
-      <main className="max-w-6xl mx-auto px-6 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, {user?.firstName}! 👋
-          </h2>
-          <p className="text-muted-foreground">
-            Let's get things done today
-          </p>
-        </div>
-
-        {/* Todo List */}
+      <main className="max-w-4xl mx-auto p-6">
+        <h2 className="text-2xl font-bold mb-6">Welcome, {user?.firstName}!</h2>
         <TodoList userId={user?.id} />
       </main>
     </div>

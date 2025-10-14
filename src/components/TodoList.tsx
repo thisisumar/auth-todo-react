@@ -128,83 +128,40 @@ const TodoList = ({ userId }: TodoListProps) => {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-6">
-      {/* Add Todo Input */}
-      <div className="bg-card rounded-2xl shadow-lg p-6 border border-border">
-        <div className="flex gap-3">
-          <Input
-            type="text"
-            placeholder="What needs to be done?"
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && addTodo()}
-            className="flex-1 h-12 px-4 bg-secondary/50 border-border focus:border-primary transition-smooth"
-          />
-          <Button
-            onClick={addTodo}
-            disabled={adding}
-            className="h-12 px-6 bg-gradient-primary hover:opacity-90 transition-smooth shadow-glow"
-          >
-            {adding ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
-            ) : (
-              <>
-                <Plus className="h-5 w-5 mr-2" />
-                Add
-              </>
-            )}
-          </Button>
-        </div>
+    <div className="space-y-4">
+      <div className="flex gap-2">
+        <Input
+          type="text"
+          placeholder="Add a new todo"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && addTodo()}
+        />
+        <Button onClick={addTodo} disabled={adding}>
+          {adding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+        </Button>
       </div>
 
-      {/* Todo List */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         {todos.length === 0 ? (
-          <div className="text-center py-12 bg-card rounded-2xl border border-border">
-            <p className="text-muted-foreground text-lg">No todos yet. Start by adding one!</p>
-          </div>
+          <p className="text-center text-muted-foreground py-8">No todos yet</p>
         ) : (
           todos.map((todo) => (
-            <div
-              key={todo.id}
-              className="group bg-card rounded-xl shadow-md hover:shadow-lg p-4 border border-border transition-smooth"
-            >
-              <div className="flex items-center gap-4">
-                <Checkbox
-                  checked={todo.completed}
-                  onCheckedChange={() => toggleTodo(todo.id, todo.completed)}
-                  className="h-5 w-5 data-[state=checked]:bg-success data-[state=checked]:border-success"
-                />
-                <p
-                  className={`flex-1 text-base ${
-                    todo.completed
-                      ? "line-through text-muted-foreground"
-                      : "text-foreground"
-                  } transition-smooth`}
-                >
-                  {todo.todo}
-                </p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => deleteTodo(todo.id)}
-                  className="opacity-0 group-hover:opacity-100 transition-smooth hover:bg-destructive/10 hover:text-destructive"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
+            <div key={todo.id} className="flex items-center gap-2 p-3 border rounded">
+              <Checkbox
+                checked={todo.completed}
+                onCheckedChange={() => toggleTodo(todo.id, todo.completed)}
+              />
+              <p className={`flex-1 ${todo.completed ? "line-through" : ""}`}>
+                {todo.todo}
+              </p>
+              <Button variant="ghost" size="sm" onClick={() => deleteTodo(todo.id)}>
+                <Trash2 className="h-4 w-4" />
+              </Button>
             </div>
           ))
         )}
       </div>
-
-      {/* Stats */}
-      {todos.length > 0 && (
-        <div className="flex items-center justify-between text-sm text-muted-foreground px-2">
-          <span>{todos.filter((t) => !t.completed).length} active</span>
-          <span>{todos.filter((t) => t.completed).length} completed</span>
-        </div>
-      )}
     </div>
   );
 };

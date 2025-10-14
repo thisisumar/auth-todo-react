@@ -13,7 +13,7 @@ interface Todo {
 }
 
 interface TodoListProps {
-  userId: string;
+  userId: number;
 }
 
 const TodoList = ({ userId }: TodoListProps) => {
@@ -61,7 +61,7 @@ const TodoList = ({ userId }: TodoListProps) => {
         body: JSON.stringify({
           todo: newTodo,
           completed: false,
-          userId: parseInt(userId),
+          userId: userId,
         }),
       });
       const data = await response.json();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // If already logged in, go to Home
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) navigate("/");
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +47,7 @@ const Login = () => {
       if (response.ok && data.accessToken) {
         // Store auth data
         localStorage.setItem("authToken", data.accessToken);
-        localStorage.setItem("userId", data.id);
+        localStorage.setItem("userId", String(data.id));
         localStorage.setItem("userName", `${data.firstName} ${data.lastName}`);
 
         toast({
